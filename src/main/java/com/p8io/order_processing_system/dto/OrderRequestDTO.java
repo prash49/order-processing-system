@@ -7,8 +7,6 @@ import lombok.Data;
 
 @Data
 public class OrderRequestDTO {
-    @NotNull(message = "Order ID is required")
-    @Min(value = 1, message = "Order ID must be a positive number")
     private Long orderId;
 
     @NotBlank(message = "Item name must not be blank")
