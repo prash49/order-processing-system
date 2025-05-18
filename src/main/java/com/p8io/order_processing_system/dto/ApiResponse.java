@@ -22,26 +22,4 @@ public class ApiResponse<T> {
         this.code = code;
         this.message = message;
     }
-    public static <T> ApiResponse<T> success(T data, String message, int httpStatusCode) {
-        return new ApiResponse<>("SUCCESS", httpStatusCode, message, data);
-    }
-
-    public static <T> ApiResponse<T> success(String message, int httpStatusCode) {
-        return new ApiResponse<>("SUCCESS", httpStatusCode, message, null);
-    }
-
-    public static <T> ApiResponse<T> failure(String message, int httpStatusCode) {
-        return new ApiResponse<>("FAILURE", httpStatusCode, message, null);
-    }
-
-    public static <T> ApiResponse<T> failure(String message, int httpStatusCode, T errorData) {
-        return new ApiResponse<>("FAILURE", httpStatusCode, message, errorData);
-    }
-
-    public static <T> ApiResponse<T> error(String message, int httpStatusCode) {
-        return new ApiResponse<>("ERROR", httpStatusCode, message, null);
-    }
-
-
-
 }
