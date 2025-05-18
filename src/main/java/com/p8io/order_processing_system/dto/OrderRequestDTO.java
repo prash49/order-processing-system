@@ -45,4 +45,13 @@ public class OrderRequestDTO {
         this.quantity = quantity;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "OrderRequestDTO{" +
+                "orderId=" + orderId +
+                ", item='" + item + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
