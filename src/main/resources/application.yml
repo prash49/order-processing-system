@@ -21,7 +21,7 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 app:
   kafka:
-    order-topic: orders-topic-final
+    order-topic: order-created-events
 
 server:
   port: 8080
