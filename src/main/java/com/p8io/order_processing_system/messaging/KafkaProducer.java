@@ -24,7 +24,7 @@ public class KafkaProducer {
         try {
             CompletableFuture<SendResult<String, String>> sendFuture = kafkaTemplate.send(topic, key, jsonPayload);
             SendResult<String, String> result = sendFuture.get();
-            log.info("Message with key '{}' buffered successfully for topic '{}' at offset {} on partition {}. (Delivery guarantee depends on 'acks' config)",
+            log.info("Message with key '{}' buffered successfully for topic '{}' at offset {} on partition {}.",
                     key, topic,
                     result.getRecordMetadata().offset(), result.getRecordMetadata().partition());
         } catch (InterruptedException | ExecutionException e) {

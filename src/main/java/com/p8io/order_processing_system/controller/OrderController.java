@@ -39,7 +39,7 @@ public class OrderController {
     public ResponseEntity<ApiResponse<Order>> createOrder(@Valid @RequestBody OrderRequestDTO orderRequestDTO) {
         log.info("request payload :: {}", orderRequestDTO);
         Order order = orderService.createOrder(orderRequestDTO);
-        ApiResponse<Order> response = new ApiResponse<>(ApplicationConstants.SUCCESS, HttpStatus.OK.value(), getLocalizedMessage("order.created.successfully", orderRequestDTO.getOrderId()), order);
+        ApiResponse<Order> response = new ApiResponse<>(ApplicationConstants.SUCCESS, HttpStatus.OK.value(), getLocalizedMessage("order.created.successfully", orderRequestDTO.getOrderId()),order);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
