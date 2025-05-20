@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "orders")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Order {
     @Id
     @Column(nullable = false)
@@ -16,6 +14,15 @@ public class Order {
     private String item;
     @Column(nullable = false)
     private int quantity;
+
+    public Order(Long orderId, String item, Integer quantity) {
+        this.orderId = orderId;
+        this.item = item;
+        this.quantity = quantity;
+    }
+
+    public Order() {
+    }
 
     public String getItem() {
         return item;
