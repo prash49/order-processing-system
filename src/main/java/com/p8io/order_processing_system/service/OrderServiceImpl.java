@@ -18,6 +18,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final KafkaProducer kafkaProducer;
 
     private String getLocalizedMessage(String code, Object... args) {
-        return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
+        return messageSource.getMessage(code, args, Locale.ENGLISH);
     }
 
     @Value("${app.kafka.order-topic}")
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         log.info("Creating Order for Order id :: {}", orderRequestDTO.getOrderId());
 
         if (orderRepository.existsById(orderRequestDTO.getOrderId())) {
-            throw new OrderAlreadyExistsException(getLocalizedMessage("order.already.exists"));
+            throw new OrderAlreadyExistsException(getLocalizedMessage("order.already.exists", orderRequestDTO.getOrderId()));
         }
 
         Order order = new Order();
