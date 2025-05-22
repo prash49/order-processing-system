@@ -10,4 +10,7 @@ public interface OrderService {
     Order createOrder(OrderRequestDTO orderRequestDTO);
     List<Order> getAllOrders();
     Optional<Order> getOrderById(Long orderId);
+
+    Order updateOrder(Long orderId, OrderRequestDTO orderRequestDTO);
+    void deleteOrder(Long orderId); // Or return boolean/Order if needed
 }
