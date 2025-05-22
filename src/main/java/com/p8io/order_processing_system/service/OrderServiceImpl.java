@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.p8io.order_processing_system.dto.OrderRequestDTO;
 import com.p8io.order_processing_system.entity.Order;
 import com.p8io.order_processing_system.exceptions.OrderAlreadyExistsException;
+import com.p8io.order_processing_system.exceptions.OrderNotFoundException;
 import com.p8io.order_processing_system.messaging.KafkaProducer;
 import com.p8io.order_processing_system.repository.OrderRepository;
 import jakarta.transaction.Transactional;
@@ -93,5 +94,30 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> getOrderById(Long orderId) {
         log.info("fetching order by id: {}", orderId);
         return orderRepository.findById(orderId);
+    }
+
+    @Override
+    @Transactional
+    public Order updateOrder(Long orderId, OrderRequestDTO orderRequestDTO) {
+        log.info("update order call for orderId: {}", orderId);
+        Order existingOrder = orderRepository.findById(orderId)
+                .orElseThrow(() -> {
+                    log.warn("order with id {} not found for update ", orderId);
+                    return new OrderNotFoundException("Order Not Found for "+ orderId);
+                });
+        existingOrder.setItem(orderRequestDTO.getItem());
+        existingOrder.setQuantity(orderRequestDTO.getQuantity());
+        return existingOrder;
+    }
+
+    @Override
+    @Transactional
+    public void deleteOrder(Long orderId) {
+        log.info("Deleting order with id: {}", orderId);
+        if (!orderRepository.existsById(orderId)){
+            log.warn("Order with id {} not found for deleting.", orderId);
+            throw  new OrderNotFoundException("order not found with id:"+orderId);
+        }
+        orderRepository.deleteById(orderId);
     }
 }

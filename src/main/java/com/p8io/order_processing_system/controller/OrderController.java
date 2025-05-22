@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,5 +63,23 @@ public class OrderController {
             ApiResponse<Order> response = new ApiResponse<>(ApplicationConstants.FAILURE, HttpStatus.NOT_FOUND.value(), getLocalizedMessage("order.not.found", orderId));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping(value = "/{orderId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ApiResponse<Order>> updateOrder(@PathVariable Long orderId, @Valid @RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("Received request to update order with id :: {}", orderId);
+        Order updatedOrder = orderService.updateOrder(orderId, orderRequestDTO);
+        ApiResponse<Order> response = new ApiResponse<>(ApplicationConstants.SUCCESS, HttpStatus.OK.value(), getLocalizedMessage("order.updated.successfully", orderId), updatedOrder);
+        log.info("Order with ID {} updated successfully.", updatedOrder.getOrderId());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long orderId) {
+        log.info("Received request to delete order with id :: {}", orderId);
+        orderService.deleteOrder(orderId);
+        ApiResponse<Void> response = new ApiResponse<>(ApplicationConstants.SUCCESS, HttpStatus.OK.value(), getLocalizedMessage("order.deleted.successfully", orderId));
+        log.info("Order with ID {} deleted successfully.", orderId);
+        return ResponseEntity.ok(response);
     }
 }

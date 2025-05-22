@@ -29,6 +29,17 @@ public class GlobalExceptionHandler {
         log.info(response.toString());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ApiResponse<Object>> handleOrderNotFoundException(OrderNotFoundException ex) {
+        log.info("handle OrderNot found exception");
+        ApiResponse<Object> response = new ApiResponse<>(
+                ApplicationConstants.FAILURE,
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage()
+        );
+        log.info(response.toString());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
